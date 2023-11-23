@@ -4,9 +4,10 @@ import 'package:flutter_application_1/models/quote.dart';
 class QuoteListItem extends StatelessWidget {
   final Quote quote;
   final Function() onDeletePressed;
-  const QuoteListItem({super.key, required this.quote, required this.onDeletePressed});
+  const QuoteListItem(
+      {super.key, required this.quote, required this.onDeletePressed});
 
-  IconData getIconFromCategory(String category){
+  IconData getIconFromCategory(String category) {
     switch (category) {
       case 'love':
         return Icons.favorite_outline;
@@ -26,6 +27,10 @@ class QuoteListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side:
+                BorderSide(color: Theme.of(context).primaryColor, width: 0.2)),
         margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
@@ -47,7 +52,7 @@ class QuoteListItem extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            quote.quoteAuthor,
+                            "- ${quote.quoteAuthor}",
                             style: TextStyle(
                               fontSize: 10.0,
                               color: Colors.grey[800],
@@ -55,8 +60,9 @@ class QuoteListItem extends StatelessWidget {
                             textAlign: TextAlign.right,
                           ),
                           const SizedBox(width: 5),
-                          Icon(getIconFromCategory(quote.quoteCategory),
-                          size: 15,
+                          Icon(
+                            getIconFromCategory(quote.quoteCategory),
+                            size: 15,
                           ),
                         ],
                       ),
@@ -65,6 +71,8 @@ class QuoteListItem extends StatelessWidget {
                         child: IconButton(
                           icon: const Icon(Icons.delete),
                           onPressed: onDeletePressed,
+                          tooltip: 'Remove',
+                          color: const Color(0xffc70000),
                         ),
                       ),
                     ]),
