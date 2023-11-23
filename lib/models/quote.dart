@@ -1,6 +1,7 @@
 class Quote{
   String quoteText;
-  String quoteTitle;
+  String quoteAuthor;
+  String quoteCategory;
 
-  Quote({required this.quoteText, required this.quoteTitle});
+  Quote({required this.quoteText, required this.quoteAuthor, required this.quoteCategory});
 }
