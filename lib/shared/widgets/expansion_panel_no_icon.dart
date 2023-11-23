@@ -385,8 +385,8 @@ class _ExpansionPanelListState extends State<ExpansionPanelListNoIcon> {
           Expanded(
             child: AnimatedContainer(
               duration: widget.animationDuration,
-              curve: Curves.fastOutSlowIn,
-              margin: _isChildExpanded(index) ? widget.expandedHeaderPadding : EdgeInsets.zero,
+              curve: Curves.fastOutSlowIn,  
+              margin: _isChildExpanded(index) ? EdgeInsets.zero : EdgeInsets.zero,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minHeight: _kPanelHeaderCollapsedHeight),
                 child: headerWidget,

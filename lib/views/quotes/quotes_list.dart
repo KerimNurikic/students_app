@@ -47,7 +47,7 @@ class _QuotesListState extends State<QuotesList> {
               hasIcon: false,
               headerBuilder: (context, isExpanded) {
                 return Image(image: NetworkImage('https://thumbs.dreamstime.com/b/sun-rays-mountain-landscape-5721010.jpg'),
-                opacity: AlwaysStoppedAnimation(.5),);
+                opacity: AlwaysStoppedAnimation(.7),);
               },
             ),
           ],
