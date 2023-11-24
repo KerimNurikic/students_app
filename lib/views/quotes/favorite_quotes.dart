@@ -16,7 +16,7 @@ class _FavoriteQuotesState extends State<FavoriteQuotes> {
   @override
   void initState() {
     super.initState();
-    favoriteQuotes = QuotesService().getQuotesByCategory('test');
+    favoriteQuotes = QuotesService().getFavoriteQuotes();
   }
 
   void removeQuoteFromFavorites(Quote quote) {

@@ -29,4 +29,20 @@ class QuotesService {
   List<Quote> getQuotesByCategory(String category) {
     return quotes;
   }
+
+  List<Quote> getFavoriteQuotes(){
+    return favoriteQuotes;
+  }
+
+  bool isFavorite(Quote quote){
+    return favoriteQuotes.contains(quote);
+  }
+
+  void removeFromFavorites(Quote quote){
+    favoriteQuotes.remove(quote);
+  }
+
+  void addToFavorites(Quote quote){
+    favoriteQuotes.add(quote);
+  }
 }

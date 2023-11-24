@@ -3,9 +3,19 @@ import 'package:flutter_application_1/models/quote.dart';
 
 class QuoteListItem extends StatelessWidget {
   final Quote quote;
-  final Function() onDeletePressed;
+  final Function()? onDeletePressed;
+  final Function()? onFavoritePressed;
+  final bool isFavorite;
+  final bool canFavorite;
+  final bool canDelete;
   const QuoteListItem(
-      {super.key, required this.quote, required this.onDeletePressed});
+      {super.key,
+      required this.quote,
+      this.onDeletePressed,
+      this.onFavoritePressed,
+      this.canFavorite = false,
+      this.isFavorite = false,
+      this.canDelete = true});
 
   IconData getIconFromCategory(String category) {
     switch (category) {
@@ -67,14 +77,28 @@ class QuoteListItem extends StatelessWidget {
                         ],
                       ),
                       Container(
-                        alignment: Alignment.bottomRight,
-                        child: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: onDeletePressed,
-                          tooltip: 'Remove',
-                          color: const Color(0xffc70000),
-                        ),
-                      ),
+                          alignment: Alignment.bottomRight,
+                          child: Row(
+                            children: [
+                              if (canFavorite)
+                                IconButton(
+                                  icon: isFavorite
+                                      ? const Icon(Icons.favorite)
+                                      : const Icon(Icons.favorite_outline),
+                                  onPressed: onFavoritePressed,
+                                  tooltip: isFavorite
+                                      ? 'Remove from favorites'
+                                      : 'Add to favorites',
+                                ),
+                              if (canDelete)
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: onDeletePressed,
+                                  tooltip: 'Remove',
+                                  color: const Color(0xffc70000),
+                                ),
+                            ],
+                          )),
                     ]),
               ]),
         ));
