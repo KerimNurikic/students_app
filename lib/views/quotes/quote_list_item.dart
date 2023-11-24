@@ -73,6 +73,7 @@ class QuoteListItem extends StatelessWidget {
                           Icon(
                             getIconFromCategory(quote.quoteCategory),
                             size: 15,
+                            color: Theme.of(context).primaryColor,
                           ),
                         ],
                       ),
@@ -83,8 +84,14 @@ class QuoteListItem extends StatelessWidget {
                               if (canFavorite)
                                 IconButton(
                                   icon: isFavorite
-                                      ? const Icon(Icons.favorite)
-                                      : const Icon(Icons.favorite_outline),
+                                      ? Icon(
+                                          Icons.favorite,
+                                          color: Theme.of(context).primaryColor,
+                                        )
+                                      : Icon(
+                                          Icons.favorite_outline,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
                                   onPressed: onFavoritePressed,
                                   tooltip: isFavorite
                                       ? 'Remove from favorites'

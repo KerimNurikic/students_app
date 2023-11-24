@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/quote.dart';
 import 'package:flutter_application_1/services/quotes_service.dart';
 import 'package:flutter_application_1/shared/widgets/expansion_panel_no_icon.dart';
-import 'package:flutter_application_1/views/quotes/quote_list_item.dart';
+import 'package:flutter_application_1/views/quotes/quotes_panel_body.dart';
+import 'package:flutter_application_1/views/quotes/quotes_panel_header.dart';
+import 'package:flutter_application_1/shared/constants.dart' as constants;
 
 class QuotesList extends StatefulWidget {
   const QuotesList({super.key});
@@ -18,16 +20,16 @@ class _QuotesListState extends State<QuotesList> {
   var happinessQuotes = <Quote>[];
   var imaginationQuotes = <Quote>[];
 
-  bool _isExpanded = false;
+  var isPanelExpanded = [false, false, false, false, false];
 
   @override
   void initState() {
     super.initState();
-    historyQuotes = QuotesService().getQuotesByCategory('test');
-    loveQuotes = QuotesService().getQuotesByCategory('test');
-    inspirationalQuotes = QuotesService().getQuotesByCategory('test');
-    happinessQuotes = QuotesService().getQuotesByCategory('test');
-    imaginationQuotes = QuotesService().getQuotesByCategory('test');
+    historyQuotes = QuotesService().getQuotesByCategory('history');
+    loveQuotes = QuotesService().getQuotesByCategory('love');
+    inspirationalQuotes = QuotesService().getQuotesByCategory('inspirational');
+    happinessQuotes = QuotesService().getQuotesByCategory('happiness');
+    imaginationQuotes = QuotesService().getQuotesByCategory('imagination');
   }
 
   bool isFavorite(Quote quote) {
@@ -42,43 +44,49 @@ class _QuotesListState extends State<QuotesList> {
     }
 
     setState(() {
-      historyQuotes = QuotesService().getQuotesByCategory('test');
+      //historyQuotes = QuotesService().getQuotesByCategory('test');
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: ExpansionPanelListNoIcon(
-        expansionCallback: (panelIndex, isExpanded) {
-          setState(() {
-            _isExpanded = isExpanded;
-          });
-        },
-        children: [
-          ExpansionPanelNoIcon(
-            body: SingleChildScrollView(
-              child: Column(
-                children: historyQuotes
-                    .map((quote) => QuoteListItem(
-                          quote: quote,
-                          canDelete: false,
-                          isFavorite: isFavorite(quote),
-                          canFavorite: true,
-                          onFavoritePressed: () => addOrRemoveFromFavorites(quote),
-                        ))
-                    .toList(),
-              ),
-            ),
-            isExpanded: _isExpanded,
-            canTapOnHeader: true,
-            hasIcon: false,
-            headerBuilder: (context, isExpanded) {
-              return const Text('test');
-            },
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ExpansionPanelListNoIcon(
+          expansionCallback: (panelIndex, isExpanded) {
+            setState(() {
+              isPanelExpanded[panelIndex] = isExpanded;
+            });
+          },
+          children: [
+            getPanel(historyQuotes, 0, 'History'),
+            getPanel(loveQuotes, 1, 'Love'),
+            getPanel(happinessQuotes, 2, 'Happiness'),
+            getPanel(inspirationalQuotes, 3, 'Inspirational'),
+            getPanel(imaginationQuotes, 4, 'Imagination')
+          ],
+        ),
       ),
+    );
+  }
+
+  ExpansionPanelNoIcon getPanel(
+      List<Quote> quotes, int panelIndex, String title) {
+    return ExpansionPanelNoIcon(
+      body: QuotesPanelBody(
+          quotes: quotes,
+          onFavoritePressed: addOrRemoveFromFavorites,
+          isFavorite: isFavorite),
+      isExpanded: isPanelExpanded[panelIndex],
+      canTapOnHeader: true,
+      hasIcon: false,
+      headerBuilder: (context, isExpanded) {
+        return QuotesPanelHeader(
+            backgroundImage: constants.backgroundImages[title],
+            iconImage: constants.iconImages[title],
+            quotesTitle: title);
+      },
     );
   }
 }

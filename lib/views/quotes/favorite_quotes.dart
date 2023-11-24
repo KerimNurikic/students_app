@@ -21,7 +21,20 @@ class _FavoriteQuotesState extends State<FavoriteQuotes> {
 
   void removeQuoteFromFavorites(Quote quote) {
     setState(() {
-      favoriteQuotes.remove(quote);
+      int index = favoriteQuotes.indexOf(quote);
+      if (QuotesService().removeFromFavorites(quote)) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text("Quote removed from favorites!"),
+            duration: const Duration(seconds: 3),
+            action: SnackBarAction(
+                label: 'Undo',
+                onPressed: () {
+                  setState(() {
+                    QuotesService().addToFavorites(quote, index);
+                  });
+                })));
+      }
     });
   }
 
