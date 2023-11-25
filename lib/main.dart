@@ -68,11 +68,11 @@ class MyNavigationDrawer extends StatelessWidget {
             ),
             SizedBox(height: 12),
             Text(
-              'Amra Trako',
+              'Kerim Nurik',
               style: TextStyle(fontSize: 28, color: Colors.white),
             ),
             Text(
-              'atrako99@gmail.com',
+              'kerimnuri@gmail.com',
               style: TextStyle(fontSize: 16, color: Colors.white)
             )
           ],

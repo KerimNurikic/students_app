@@ -53,18 +53,64 @@ class _QuotesListState extends State<QuotesList> {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ExpansionPanelListNoIcon(
-          expansionCallback: (panelIndex, isExpanded) {
-            setState(() {
-              isPanelExpanded[panelIndex] = isExpanded;
-            });
-          },
+        child: Column(
           children: [
-            getPanel(historyQuotes, 0, 'History'),
-            getPanel(loveQuotes, 1, 'Love'),
-            getPanel(happinessQuotes, 2, 'Happiness'),
-            getPanel(inspirationalQuotes, 3, 'Inspirational'),
-            getPanel(imaginationQuotes, 4, 'Imagination')
+            ExpansionPanelListNoIcon(
+              expansionCallback: (panelIndex, isExpanded) {
+                setState(() {
+                  isPanelExpanded[panelIndex] = isExpanded;
+                });
+              },
+              children: [
+                getPanel(historyQuotes, 0, 'History'),
+              ],
+            ),
+            const SizedBox(height: 16),
+            ExpansionPanelListNoIcon(
+              expansionCallback: (panelIndex, isExpanded) {
+                setState(() {
+                  isPanelExpanded[panelIndex + 1] = isExpanded;
+                });
+              },
+              children: [
+                getPanel(loveQuotes, 1, 'Love'),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            ExpansionPanelListNoIcon(
+              expansionCallback: (panelIndex, isExpanded) {
+                setState(() {
+                  isPanelExpanded[panelIndex + 2] = isExpanded;
+                });
+              },
+              children: [
+                getPanel(happinessQuotes, 2, 'Happiness'),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            ExpansionPanelListNoIcon(
+              expansionCallback: (panelIndex, isExpanded) {
+                setState(() {
+                  isPanelExpanded[panelIndex + 3] = isExpanded;
+                });
+              },
+              children: [
+                getPanel(inspirationalQuotes, 3, 'Inspirational'),
+              ],
+            ),
+            const SizedBox(height: 16),
+            ExpansionPanelListNoIcon(
+              expansionCallback: (panelIndex, isExpanded) {
+                setState(() {
+                  isPanelExpanded[panelIndex + 4] = isExpanded;
+                });
+              },
+              children: [
+                getPanel(imaginationQuotes, 4, 'Imagination')
+              ],
+            ),
           ],
         ),
       ),
@@ -84,7 +130,7 @@ class _QuotesListState extends State<QuotesList> {
       headerBuilder: (context, isExpanded) {
         return QuotesPanelHeader(
             backgroundImage: constants.backgroundImages[title],
-            iconImage: constants.iconImages[title],
+            iconImage: constants.iconImages[title.toLowerCase()],
             quotesTitle: title);
       },
     );

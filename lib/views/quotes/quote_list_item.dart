@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/quote.dart';
+import 'package:flutter_application_1/shared/constants.dart' as constants;
 
 class QuoteListItem extends StatelessWidget {
   final Quote quote;
@@ -17,23 +18,6 @@ class QuoteListItem extends StatelessWidget {
       this.isFavorite = false,
       this.canDelete = true});
 
-  IconData getIconFromCategory(String category) {
-    switch (category) {
-      case 'love':
-        return Icons.favorite_outline;
-      case 'happiness':
-        return Icons.emoji_emotions_outlined;
-      case 'history':
-        return Icons.history_outlined;
-      case 'imagination':
-        return Icons.lightbulb_outline;
-      case 'inspirational':
-        return Icons.all_inclusive_outlined;
-      default:
-        return Icons.public;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -47,6 +31,7 @@ class QuoteListItem extends StatelessWidget {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                const SizedBox(height: 8.0),
                 Text(
                   "\"${quote.quoteText}\"",
                   style: TextStyle(
@@ -55,7 +40,7 @@ class QuoteListItem extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 6.0),
+                const SizedBox(height: 8.0),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -71,7 +56,7 @@ class QuoteListItem extends StatelessWidget {
                           ),
                           const SizedBox(width: 5),
                           Icon(
-                            getIconFromCategory(quote.quoteCategory),
+                            constants.iconImages[quote.quoteCategory],
                             size: 15,
                             color: Theme.of(context).primaryColor,
                           ),
