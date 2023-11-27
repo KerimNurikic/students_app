@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   loading_animation_widget:
+  table_calendar: ^3.0.9
       
 
 

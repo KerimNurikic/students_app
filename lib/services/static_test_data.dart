@@ -1,3 +1,5 @@
+import 'package:flutter_application_1/models/event.dart';
+
 import '../models/quote.dart';
 
 var happinessQuotes = [
@@ -135,4 +137,21 @@ var historyQuotes = [
           'We live in an era with no historical precedents. History is no longer useful as a tool in helping us understand current changes.',
       quoteAuthor: 'Doug Coupland',
       quoteCategory: 'history'),
+];
+
+var events = [
+  Event(date: DateTime.now(), title: 'Note 1_1', description: 'description'),
+  Event(date: DateTime.now(), title: 'Note 1_2', description: 'description'),
+  Event(date: DateTime.now(), title: 'Note 1_3', description: 'description'),
+
+  Event(
+      date: DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day + 1),
+      title: 'Note 2',
+      description: 'description'),
+  Event(
+      date: DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day + 2),
+      title: 'Note 3',
+      description: 'description'),
 ];
