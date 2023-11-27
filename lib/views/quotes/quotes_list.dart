@@ -22,14 +22,16 @@ class _QuotesListState extends State<QuotesList> {
 
   var isPanelExpanded = [false, false, false, false, false];
 
+  var isLoading = [false, false, false, false, false];
+
   @override
   void initState() {
     super.initState();
-    historyQuotes = QuotesService().getQuotesByCategory('history');
-    loveQuotes = QuotesService().getQuotesByCategory('love');
-    inspirationalQuotes = QuotesService().getQuotesByCategory('inspirational');
-    happinessQuotes = QuotesService().getQuotesByCategory('happiness');
-    imaginationQuotes = QuotesService().getQuotesByCategory('imagination');
+    historyQuotes = QuotesService().getCurrentQuotes('history');
+    loveQuotes = QuotesService().getCurrentQuotes('love');
+    inspirationalQuotes = QuotesService().getCurrentQuotes('inspirational');
+    happinessQuotes = QuotesService().getCurrentQuotes('happiness');
+    imaginationQuotes = QuotesService().getCurrentQuotes('imagination');
   }
 
   bool isFavorite(Quote quote) {
@@ -38,14 +40,76 @@ class _QuotesListState extends State<QuotesList> {
 
   void addOrRemoveFromFavorites(Quote quote) {
     if (isFavorite(quote)) {
-      QuotesService().removeFromFavorites(quote);
+      setState(() {
+        QuotesService().removeFromFavorites(quote);
+      });
     } else {
-      QuotesService().addToFavorites(quote);
+      setState(() {
+        QuotesService().addToFavorites(quote);
+      });
     }
+  }
 
-    setState(() {
-      //historyQuotes = QuotesService().getQuotesByCategory('test');
-    });
+  void generateQuotes(String category) {
+    switch (category) {
+      case 'history':
+        setState(() {
+          isLoading[0] = true;
+        });
+        QuotesService()
+            .fetchQuotesByCategory(category)
+            .then((quotes) => setState(() {
+                  historyQuotes = quotes;
+                  isLoading[0] = false;
+                }));
+        break;
+      case 'love':
+        setState(() {
+          isLoading[1] = true;
+        });
+        QuotesService()
+            .fetchQuotesByCategory(category)
+            .then((quotes) => setState(() {
+                  loveQuotes = quotes;
+                  isLoading[1] = false;
+                }));
+        break;
+      case 'happiness':
+        setState(() {
+          isLoading[2] = true;
+        });
+        QuotesService()
+            .fetchQuotesByCategory(category)
+            .then((quotes) => setState(() {
+                  happinessQuotes = quotes;
+                  isLoading[2] = false;
+                }));
+        break;
+      case 'inspirational':
+        setState(() {
+          isLoading[3] = true;
+        });
+        QuotesService()
+            .fetchQuotesByCategory(category)
+            .then((quotes) => setState(() {
+                  inspirationalQuotes = quotes;
+                  isLoading[3] = false;
+                }));
+        break;
+      case 'imagination':
+        setState(() {
+          isLoading[4] = true;
+        });
+        QuotesService()
+            .fetchQuotesByCategory(category)
+            .then((quotes) => setState(() {
+                  imaginationQuotes = quotes;
+                  isLoading[4] = false;
+                }));
+        break;
+      default:
+    }
+    QuotesService().fetchQuotesByCategory(category);
   }
 
   @override
@@ -77,7 +141,6 @@ class _QuotesListState extends State<QuotesList> {
               ],
             ),
             const SizedBox(height: 16),
-
             ExpansionPanelListNoIcon(
               expansionCallback: (panelIndex, isExpanded) {
                 setState(() {
@@ -89,7 +152,6 @@ class _QuotesListState extends State<QuotesList> {
               ],
             ),
             const SizedBox(height: 16),
-
             ExpansionPanelListNoIcon(
               expansionCallback: (panelIndex, isExpanded) {
                 setState(() {
@@ -107,9 +169,7 @@ class _QuotesListState extends State<QuotesList> {
                   isPanelExpanded[panelIndex + 4] = isExpanded;
                 });
               },
-              children: [
-                getPanel(imaginationQuotes, 4, 'Imagination')
-              ],
+              children: [getPanel(imaginationQuotes, 4, 'Imagination')],
             ),
           ],
         ),
@@ -121,6 +181,9 @@ class _QuotesListState extends State<QuotesList> {
       List<Quote> quotes, int panelIndex, String title) {
     return ExpansionPanelNoIcon(
       body: QuotesPanelBody(
+          category: title.toLowerCase(),
+          isLoading: isLoading[panelIndex],
+          onGenerateQuotesPressed: generateQuotes,
           quotes: quotes,
           onFavoritePressed: addOrRemoveFromFavorites,
           isFavorite: isFavorite),
