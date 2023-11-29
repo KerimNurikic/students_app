@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/models/event.dart';
 import 'package:flutter_application_1/services/events_service.dart';
+import 'package:flutter_application_1/views/calendar/event_item.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -44,6 +45,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
       _selectedEvents.value = _getEventsForDay(selectedDay);
     }
+  }
+
+  void openEvent(Event event) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EventItem(
+                  title: event.title,
+                  description: event.description,
+                  date: event.date,
+                )));
   }
 
   @override
@@ -91,9 +103,30 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             decoration: BoxDecoration(
                                 border: Border.all(),
                                 borderRadius: BorderRadius.circular(12.0)),
-                            child: ListTile(
-                              onTap: () => print(value[index].title),
-                              title: Text(value[index].title),
+                            child: Hero(
+                              tag: '${value[index].title}${value[index].date.toString()}',
+                              child: Material(
+                                borderRadius: BorderRadius.circular(12),
+                                child: ListTile(
+                                  onTap: () => openEvent(value[index]),
+                                  title: Text(value[index].title),
+                                  subtitle: Text(
+                                    value[index].description,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(Icons.edit)),
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(Icons.delete))
+                                      ]),
+                                ),
+                              ),
                             ),
                           );
                         });
