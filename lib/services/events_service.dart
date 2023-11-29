@@ -10,6 +10,11 @@ class EventsService {
   List<Event> getEventsForDay(DateTime day) {
     return events.where((element) => isSameDay(day, element.date)).toList(); 
   }
+
+  bool deleteEvent(Event event) {
+    events.remove(event);
+    return true;
+  }
 }
 
 
