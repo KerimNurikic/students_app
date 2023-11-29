@@ -73,6 +73,10 @@ class EventItem extends StatelessWidget {
                               softWrap: true,
                               overflow: TextOverflow.fade,
                             ),
+                            const SizedBox(height: 20.0),
+                            Text(
+                              date.toString().substring(0, 10),
+                            )
                           ],
                         ),
                       ),
@@ -89,6 +93,7 @@ class EventItem extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           FloatingActionButton(
+            heroTag: null,
             onPressed: () {},
             tooltip: 'Edit quote',
             child: const Icon(Icons.edit),
@@ -97,6 +102,7 @@ class EventItem extends StatelessWidget {
             width: 12,
           ),
           FloatingActionButton(
+            heroTag: null,
             onPressed: () {},
             tooltip: 'Delete quote',
             child: const Icon(Icons.delete),
