@@ -150,13 +150,16 @@ var events = [
       title: 'Note 2',
       description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
-  Event(date: DateTime.now(), title: 'Note 3', description: 'description'),
+  Event(date: DateTime.now(), title: 'Note 3', description: 'description', isToDo: true, isDone: false),
   Event(
       date: DateTime(
           DateTime.now().year, DateTime.now().month, DateTime.now().day + 1),
       title: 'Note 4',
       description:
-          'Purus semper eget duis at tellus at urna. Lobortis scelerisque fermentum dui faucibus. Quis varius quam quisque id diam. Penatibus et magnis dis parturient montes nascetur. Lorem ipsum dolor sit amet. Tempor nec feugiat nisl pretium. Eget velit aliquet sagittis id consectetur purus ut. Quis vel eros donec ac odio. Adipiscing tristique risus nec feugiat in. Vestibulum lectus mauris ultrices eros. Tristique sollicitudin nibh sit amet commodo nulla facilisi nullam. Aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque.'),
+          'Purus semper eget duis at tellus at urna. Lobortis scelerisque fermentum dui faucibus. Quis varius quam quisque id diam. Penatibus et magnis dis parturient montes nascetur. Lorem ipsum dolor sit amet. Tempor nec feugiat nisl pretium. Eget velit aliquet sagittis id consectetur purus ut. Quis vel eros donec ac odio. Adipiscing tristique risus nec feugiat in. Vestibulum lectus mauris ultrices eros. Tristique sollicitudin nibh sit amet commodo nulla facilisi nullam. Aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque.',
+          isToDo: true,
+          isDone: true 
+          ),
   Event(
       date: DateTime(
           DateTime.now().year, DateTime.now().month, DateTime.now().day + 2),

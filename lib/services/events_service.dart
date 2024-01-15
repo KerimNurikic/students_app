@@ -15,6 +15,11 @@ class EventsService {
     events.remove(event);
     return true;
   }
+
+  bool addEvent(Event event) {
+    events.add(event);
+    return true;
+  }
 }
 
 

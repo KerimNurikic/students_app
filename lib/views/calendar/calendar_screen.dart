@@ -46,6 +46,92 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }
   }
 
+  void _addEvent(Event event) {
+    EventsService().addEvent(event);
+    _selectedEvents.value = _getEventsForDay(_selectedDay!);
+    setState(() {});
+  }
+
+  void _openAddEventDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          bool? isToDo = false;
+          final titleController = TextEditingController();
+          final descriptionController = TextEditingController();
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child:
+                      const Text('Close', style: TextStyle(color: Colors.red)),
+                ),
+                TextButton(
+                  onPressed: () {
+                    _addEvent(Event(
+                        date: _focusedDay,
+                        title: titleController.text,
+                        description: descriptionController.text,
+                        isToDo: isToDo ?? false));
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Add Note'),
+                )
+              ],
+              contentPadding: EdgeInsets.zero,
+              scrollable: true,
+              title: const Text(
+                'Add note',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 20),
+              ),
+              content: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    TextField(
+                      maxLines: null,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Note title',
+                      ),
+                      controller: titleController,
+                    ),
+                    const SizedBox(height: 20.0),
+                    TextField(
+                      maxLines: null,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Note description',
+                      ),
+                      controller: descriptionController,
+                    ),
+                    const SizedBox(height: 10.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Text(' To-Do: '),
+                        Checkbox(
+                          value: isToDo,
+                          onChanged: (bool? selected) {
+                            setState(() {
+                              isToDo = selected;
+                            });
+                          },
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            );
+          });
+        });
+  }
+
   void _deleteEvent(Event event) async {
     final result = await showDialog<bool>(
       context: context,
@@ -170,6 +256,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               child: Material(
                                 borderRadius: BorderRadius.circular(12),
                                 child: ListTile(
+                                  
+                                  leading: value[index].isToDo
+                                      ? Checkbox(
+                                          value: value[index].isDone,
+                                          onChanged: (bool? selected) {
+                                            setState(() {
+                                              value[index].isDone = selected;
+                                            });
+                                          },
+                                        )
+                                      : null,
                                   onTap: () => openEventDialog(value[index]),
                                   title: Text(value[index].title),
                                   subtitle: Text(
@@ -180,10 +277,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(Icons.edit,
-                                                color: Colors.black)),
                                         IconButton(
                                             onPressed: () =>
                                                 _deleteEvent(value[index]),
@@ -202,6 +295,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
       appBar: AppBar(
         title: const Text('Calendar'),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _openAddEventDialog(),
+        label: const Text('Add Note'),
+        icon: const Icon(Icons.add),
       ),
     );
   }
