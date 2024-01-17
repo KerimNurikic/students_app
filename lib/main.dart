@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/views/budget/budget_screen.dart';
+import 'package:flutter_application_1/views/budget/budget_home_screen.dart';
 import 'package:flutter_application_1/views/calendar/calendar_screen.dart';
 import 'package:flutter_application_1/views/quotes/quotes_screen.dart';
 
@@ -86,7 +86,7 @@ class MyNavigationDrawer extends StatelessWidget {
       ListTile(
         leading: const Icon(Icons.attach_money_outlined),
         title: const Text('Budget'),
-        onTap: () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const BudgetScreen())),
+        onTap: () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const BudgetHomeScreen())),
       ),
       ListTile(
         leading: const Icon(Icons.calendar_month_outlined),

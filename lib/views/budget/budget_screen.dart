@@ -76,10 +76,10 @@ class _BudgetScreenState extends State<BudgetScreen>
                 },
               ),
             Scaffold(
-              drawer: const MyNavigationDrawer(),
-              appBar: AppBar(
-                title: const Text('Budget'),
-              ),
+              //drawer: const MyNavigationDrawer(),
+              // appBar: AppBar(
+              //   title: const Text('Budget'),
+              // ),
               // Set the background to transparent so you can see the camera preview
               backgroundColor: _isPermissionGranted ? Colors.transparent : null,
               body: _isPermissionGranted
