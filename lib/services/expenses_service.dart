@@ -17,6 +17,13 @@ class ExpensesService{
 
   bool addIncome(Expense expense){
     expensesList.insert(0, expense);
+    totalBudget = totalBudget + expense.totalExpense;
+    return true;
+  }
+
+  bool addExpense(Expense expense){
+    expensesList.insert(0, expense);
+    totalBudget = totalBudget - expense.totalExpense;
     return true;
   }
 

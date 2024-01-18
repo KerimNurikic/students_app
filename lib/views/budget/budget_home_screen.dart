@@ -17,7 +17,15 @@ class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const MyNavigationDrawer(),
-      body: currentPageIndex == 0 ? const Expenses() : const BudgetScreen(),
+      body: currentPageIndex == 0
+          ? const Expenses()
+          : BudgetScreen(
+              changePage: () => {
+                setState(() {
+                  currentPageIndex = 0;
+                })
+              },
+            ),
       appBar: AppBar(
         title: const Text('Expenses'),
       ),

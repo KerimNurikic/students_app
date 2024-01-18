@@ -3,12 +3,12 @@ import 'package:flutter_application_1/models/expense.dart';
 
 import '../models/quote.dart';
 
-var totalBudget = 150.33;
+var totalBudget = 133.0;
 
 var expenses = [
-  Expense(isBuy: false, totalExpense: 150.33, description: "Stipendija", date: DateTime.now()),
-  Expense(isBuy: true, description: "Melody kafa", totalExpense: 15.34, date: DateTime.now(),
-  itemsBought: {'Zvake':1.7, 'Coca-cola 2L':2.75, 'Toalet papir':11.95}),
+  Expense(isBuy: false, totalExpense: 150, description: "Stipendija", date: DateTime.now()),
+  Expense(isBuy: true, description: "Melody kafa", totalExpense: 17, date: DateTime.now(),
+  itemsBought: {'Zvake':3.5, 'Coca-cola 2L':3.5, 'Toalet papir':10}),
 ];
 
 var happinessQuotes = [

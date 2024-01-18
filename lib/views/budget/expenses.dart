@@ -32,61 +32,69 @@ class _ExpensesState extends State<Expenses> {
       ),
       body: Column(
         children: [
-          Container(
-            margin:
-                const EdgeInsets.only(top: 25, left: 10, right: 10, bottom: 25),
-            padding: const EdgeInsets.all(25),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text(
-                        'YOUR TOTAL BUDGET',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        totalMoney.toStringAsFixed(2),
-                        style: const TextStyle(
-                          fontSize: 30,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'KM',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 60),
-                const Icon(Icons.euro, size: 60, color: Colors.white),
-              ],
-            ),
-          ),
-          const Divider(),
           Column(
-            children: expenses
-                .map((e) => ExpenseItem(
-                    expense: e, onExpensePressed: () => openExpenseDialog(e)))
-                .toList(),
+            children: [
+              Container(
+                margin: const EdgeInsets.only(
+                    top: 25, left: 10, right: 10, bottom: 25),
+                padding: const EdgeInsets.all(25),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const Text(
+                            'YOUR TOTAL BUDGET',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            totalMoney.toStringAsFixed(2),
+                            style: const TextStyle(
+                              fontSize: 30,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'KM',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 60),
+                    const Icon(Icons.euro, size: 60, color: Colors.white),
+                  ],
+                ),
+              ),
+              const Divider(),
+            ],
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: expenses
+                    .map((e) => ExpenseItem(
+                        expense: e, onExpensePressed: () => openExpenseDialog(e)))
+                    .toList(),
+              ),
+            ),
           )
         ],
       ),
@@ -180,7 +188,9 @@ class _ExpensesState extends State<Expenses> {
       );
     } else {
       ExpensesService().addIncome(expense);
-      setState(() {});
+      setState(() {
+        totalMoney = ExpensesService().getTotalBudget();
+      });
     }
   }
 
@@ -210,9 +220,10 @@ class _ExpensesState extends State<Expenses> {
                                         .map(
                                           (e) => Row(
                                             children: [
-                                              Text('${e.key}: '),
-                                              Text(
-                                                  '${e.value.toStringAsFixed(2)} KM'),
+                                              Flexible(
+                                                child: Text(
+                                                    '${e.key}: ${e.value.toStringAsFixed(2)} KM'),
+                                              ),
                                             ],
                                           ),
                                         )
