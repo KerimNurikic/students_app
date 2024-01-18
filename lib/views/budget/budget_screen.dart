@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/expense.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -75,11 +76,6 @@ class _BudgetScreenState extends State<BudgetScreen>
                 },
               ),
             Scaffold(
-              //drawer: const MyNavigationDrawer(),
-              // appBar: AppBar(
-              //   title: const Text('Budget'),
-              // ),
-              // Set the background to transparent so you can see the camera preview
               backgroundColor: _isPermissionGranted ? Colors.transparent : null,
               body: _isPermissionGranted
                   ? Column(
@@ -178,19 +174,19 @@ class _BudgetScreenState extends State<BudgetScreen>
 
       final inputImage = InputImage.fromFile(file);
       final recognizedText = await textRecognizer.processImage(inputImage);
-      print(recognizedText.blocks.length);
-      int i = 0;
-      for (var block in recognizedText.blocks) {
-        print('block $i');
-        print(block.text);
-        //int j = 0;
-        // for (var line in block.lines) {
-        //   print('line $j');
-        //   // print(line.text);
-        //   j++;
-        // }
-        i++;
-      }
+      //print(recognizedText.blocks.length);
+      // int i = 0;
+      // for (var block in recognizedText.blocks) {
+      //   //print('block $i');
+      //   //print(block.text);
+      //   //int j = 0;
+      //   // for (var line in block.lines) {
+      //   //   print('line $j');
+      //   //   // print(line.text);
+      //   //   j++;
+      //   // }
+      //   i++;
+      // }
 
       if (context.mounted) {
         if (recognizedText.text.isNotEmpty) {
@@ -217,19 +213,33 @@ class _BudgetScreenState extends State<BudgetScreen>
   getDataFromScannedText(RecognizedText recognizedText) {
     List<double> prices = [];
     DateTime? buyDate;
+    List<double> itemPrices = [];
+    List<String> itemNames = [];
     for (var block in recognizedText.blocks) {
       for (var line in block.lines) {
+        if (line.text.contains("FISKALNI") ||
+            line.text.contains("RACUN") ||
+            line.text.contains("BF:") ||
+            line.text.contains(":") ||
+            line.text.substring(line.text.length - 1, line.text.length) ==
+                'x' ||
+            line.text.substring(line.text.length - 1, line.text.length) ==
+                'X') {
+          continue;
+        }
         final removePoints = line.text.replaceAll('.', '').trim();
         final replaceCommasWithPoints = removePoints.replaceAll(',', '.');
         if (replaceCommasWithPoints.isNotEmpty) {
           var price = double.tryParse(replaceCommasWithPoints);
           if (price != null) {
             prices.add(price);
+            print('price');
+            print(price);
+            continue;
           }
         }
         if ('.'.allMatches(line.text).length == 3 &&
             ':'.allMatches(line.text).length == 1) {
-          print('date: ${line.text}');
           var date = line.text.substring(0, 11);
           var dateSplit = date.split('.');
           var year = int.tryParse(dateSplit[2]);
@@ -238,14 +248,54 @@ class _BudgetScreenState extends State<BudgetScreen>
 
           if (year != null && month != null && day != null) {
             buyDate = DateTime(year, month, day);
+            continue;
           }
         }
+        if (line.text
+                    .substring(line.text.length - 1, line.text.length) ==
+                'E' ||
+            line.text
+                    .substring(line.text.length - 1, line.text.length) ==
+                'F' ||
+            line.text.substring(line.text.length - 1, line.text.length) ==
+                'f' ||
+            line.text.substring(line.text.length - 1, line.text.length) ==
+                '£') {
+          var itemPriceUnformatted =
+              line.text.substring(0, line.text.length - 1);
+          final removeWhiteSpace = itemPriceUnformatted.replaceAll(' ', '');
+          final removePoints = removeWhiteSpace.replaceAll('.', '').trim();
+          final replaceCommasWithPoints = removePoints.replaceAll(',', '.');
+          if (replaceCommasWithPoints.isNotEmpty) {
+            var itemPrice = double.tryParse(replaceCommasWithPoints);
+            if (itemPrice != null) {
+              itemPrices.add(itemPrice);
+              continue;
+            }
+          }
+        }
+        itemNames.add(line.text);
       }
     }
     double totalPrice = prices.elementAt(prices.length - 2);
-    print('Total price: $totalPrice');
-    if (buyDate != null) {
-      print('Buy date: $buyDate');
+
+    double pricesSum = 0;
+    for (var price in itemPrices) {
+      pricesSum = pricesSum + price;
     }
+    if (buyDate != null && pricesSum == totalPrice){
+      _openExpenseDialog(buyDate,totalPrice,itemNames,itemPrices);    
+    }
+    else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Unable to correctly format the bill'),
+          ),
+        );
+    }
+      
+  }
+  void _openExpenseDialog(DateTime buyDate, double totalPrice, List<String> itemNames, List<double> itemPrices){
+    
   }
 }
