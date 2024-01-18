@@ -58,8 +58,7 @@ class MyNavigationDrawer extends StatelessWidget {
                 CircleAvatar(
                   backgroundColor: Colors.blueGrey,
                   radius: 52,
-                  backgroundImage: NetworkImage(
-                      'https://cdn4.iconfinder.com/data/icons/professions-bzzricon-filled-lines/512/25_Student-512.png'),
+                  backgroundImage: AssetImage('assets/images/student_avatar.png'),
                 ),
                 SizedBox(height: 12),
                 Text(

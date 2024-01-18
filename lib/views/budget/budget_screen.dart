@@ -90,7 +90,7 @@ class _BudgetScreenState extends State<BudgetScreen>
                           child: Center(
                             child: ElevatedButton(
                               onPressed: _scanImage,
-                              child: const Text('Scan text'),
+                              child: const Text('Scan'),
                             ),
                           ),
                         ),
@@ -181,7 +181,7 @@ class _BudgetScreenState extends State<BudgetScreen>
         if (recognizedText.text.isNotEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Text scanned successfully'),
+              content: Text('Bill scanned successfully'),
             ),
           );
         }
@@ -192,7 +192,7 @@ class _BudgetScreenState extends State<BudgetScreen>
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('An error occurred when scanning text'),
+            content: Text('An error occurred when scanning the bill'),
           ),
         );
       }
@@ -292,7 +292,7 @@ class _BudgetScreenState extends State<BudgetScreen>
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Unable to correctly format the bill'),
+          content: Text('Unable to correctly format the text from the bill'),
         ),
       );
     }
@@ -438,14 +438,14 @@ class _BudgetScreenState extends State<BudgetScreen>
     if (expense.description.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Description can\'t be empty'),
+          content: Text('You must provide a description'),
         ),
       );
     } else {
       ExpensesService().addExpense(expense);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Successfully added expense!'),
+          content: Text('Successfully added the expense!'),
         ),
       );
       Navigator.of(context).pop();

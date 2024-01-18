@@ -183,7 +183,7 @@ class _ExpensesState extends State<Expenses> {
     } else if (expense.description.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Description can\'t be empty'),
+          content: Text('You must provide a description'),
         ),
       );
     } else {
