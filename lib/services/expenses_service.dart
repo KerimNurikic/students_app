@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter_application_1/models/expense.dart';
 
 import './static_test_data.dart' as test_data;
@@ -15,6 +13,11 @@ class ExpensesService{
 
   List<Expense> getExpenses(){
     return expensesList;
+  }
+
+  bool addIncome(Expense expense){
+    expensesList.insert(0, expense);
+    return true;
   }
 
 }

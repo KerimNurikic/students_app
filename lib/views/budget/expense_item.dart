@@ -3,8 +3,8 @@ import 'package:flutter_application_1/models/expense.dart';
 
 class ExpenseItem extends StatelessWidget {
   final Expense expense;
-  final Function()? onExpensePressed;
-  const ExpenseItem({super.key, required this.expense, this.onExpensePressed});
+  final Function() onExpensePressed;
+  const ExpenseItem({super.key, required this.expense, required this.onExpensePressed});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,7 @@ class ExpenseItem extends StatelessWidget {
         margin: const EdgeInsets.only(top: 4, left: 10, right: 10, bottom: 4),
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
-          onTap: () {
-            print('kerim');
-          },
+          onTap: onExpensePressed,
           child: Container(
             padding: const EdgeInsets.all(25),
             width: double.infinity,

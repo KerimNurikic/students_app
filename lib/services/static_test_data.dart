@@ -7,7 +7,8 @@ var totalBudget = 150.33;
 
 var expenses = [
   Expense(isBuy: false, totalExpense: 150.33, description: "Stipendija", date: DateTime.now()),
-  Expense(isBuy: true, description: "Melody kafa", totalExpense: 15.34, date: DateTime.now()),
+  Expense(isBuy: true, description: "Melody kafa", totalExpense: 15.34, date: DateTime.now(),
+  itemsBought: {'Zvake':1.7, 'Coca-cola 2L':2.75, 'Toalet papir':11.95}),
 ];
 
 var happinessQuotes = [

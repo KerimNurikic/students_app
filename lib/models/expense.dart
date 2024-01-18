@@ -1,5 +1,6 @@
+
 class Expense {
-  Map<String, double>? itemsBought;
+  Map<String, double> itemsBought;
 
   double totalExpense;
   DateTime date;
@@ -8,8 +9,8 @@ class Expense {
 
   Expense(
       {required this.date,
-      this.itemsBought,
       required this.description,
       required this.isBuy,
+      this.itemsBought = const {},
       required this.totalExpense});
 }
