@@ -90,7 +90,13 @@ class _BudgetScreenState extends State<BudgetScreen>
                           child: Center(
                             child: ElevatedButton(
                               onPressed: _scanImage,
-                              child: const Text('Scan'),
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0)),
+                                minimumSize: const Size(120, 48),
+                              ),
+                              child: const Text('Scan',
+                              style: TextStyle(fontSize: 18),),
                             ),
                           ),
                         ),
@@ -245,10 +251,13 @@ class _BudgetScreenState extends State<BudgetScreen>
             line.text
                     .substring(line.text.length - 1, line.text.length) ==
                 'F' ||
-            line.text.substring(line.text.length - 1, line.text.length) ==
+            line.text
+                    .substring(line.text.length - 1, line.text.length) ==
                 'f' ||
             line.text.substring(line.text.length - 1, line.text.length) ==
-                '£') {
+                '£' ||
+            line.text.substring(line.text.length - 1, line.text.length) ==
+                'A') {
           var itemPriceUnformatted =
               line.text.substring(0, line.text.length - 1);
           final removeWhiteSpace = itemPriceUnformatted.replaceAll(' ', '');
@@ -284,7 +293,7 @@ class _BudgetScreenState extends State<BudgetScreen>
     for (var price in itemPrices) {
       pricesSum = pricesSum + price;
     }
-    
+
     if (buyDate != null &&
         pricesSum == totalPrice &&
         itemNames.length >= itemPrices.length) {
@@ -317,7 +326,7 @@ class _BudgetScreenState extends State<BudgetScreen>
                     style: TextStyle(color: Colors.red)),
               ),
               TextButton(
-                onPressed: ()  {
+                onPressed: () {
                   Navigator.of(context).pop();
                   _addDescription(Expense(
                       date: buyDate,
