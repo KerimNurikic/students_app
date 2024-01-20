@@ -212,6 +212,9 @@ class _BudgetScreenState extends State<BudgetScreen>
     List<String> itemNames = [];
     for (var block in recognizedText.blocks) {
       for (var line in block.lines) {
+        if(int.tryParse(line.text) != null){
+          continue;
+        }
         if ('.'.allMatches(line.text).length == 3 &&
             ':'.allMatches(line.text).length == 1) {
           var date = line.text.substring(0, 11);
@@ -272,6 +275,7 @@ class _BudgetScreenState extends State<BudgetScreen>
                 removeWhiteSpace.substring(
                     removeWhiteSpace.length - 2, removeWhiteSpace.length - 1);
           } else {
+            itemNames.add(line.text);
             continue;
           }
           removePoints = removeWhiteSpace.replaceAll('.', '').trim();
