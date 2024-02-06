@@ -79,7 +79,7 @@ class _ExpensesState extends State<Expenses> {
                       ),
                     ),
                     const SizedBox(width: 60),
-                    const Icon(Icons.euro, size: 60, color: Colors.white),
+                    const Icon(Icons.account_balance_wallet_outlined, size: 60, color: Colors.white),
                   ],
                 ),
               ),

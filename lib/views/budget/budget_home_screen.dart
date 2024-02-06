@@ -11,7 +11,7 @@ class BudgetHomeScreen extends StatefulWidget {
 }
 
 class _BudgetHomeScreenState extends State<BudgetHomeScreen> {
-  int currentPageIndex = 0;
+  int currentPageIndex = 0;//prati indeks stranice
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,6 @@
 
 class Expense {
   Map<String, double> itemsBought;
-
   double totalExpense;
   DateTime date;
   bool isBuy;

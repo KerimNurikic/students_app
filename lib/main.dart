@@ -5,8 +5,10 @@ import 'package:flutter_application_1/views/quotes/quotes_screen.dart';
 
 void main() {
   runApp(
+    //pokrece se app ovdje
     const MaterialApp(
-      debugShowCheckedModeBanner: false,
+      //korijenski widget
+      debugShowCheckedModeBanner: false, //sklonio karticu
       home: HomeScreen(),
     ),
   );
@@ -15,7 +17,7 @@ void main() {
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  @override
+  @override //prepisuje klasu iz extendaet stateful widget klase
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
@@ -23,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      //gotov flutter widget
       body: BudgetHomeScreen(),
     );
   }
@@ -34,11 +37,13 @@ class MyNavigationDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Drawer(
         child: SingleChildScrollView(
+          //da se moze scroll
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment:
+                CrossAxisAlignment.stretch, //da razvuce da popuni citav prostor
             children: <Widget>[
-              buildHeaders(context),
-              buildMenuItems(context),
+              buildHeaders(context), // za dio avatar ime email
+              buildMenuItems(context), //za nazive screenova
             ],
           ),
         ),
@@ -47,9 +52,11 @@ class MyNavigationDrawer extends StatelessWidget {
   Widget buildHeaders(BuildContext context) => Material(
         color: Colors.blueGrey,
         child: InkWell(
+          //animacija kad pritisnse
           onTap: () {},
           child: Container(
             padding: const EdgeInsets.only(
+              //padding i margine za widgete
               top: 24,
               bottom: 24,
             ),
@@ -58,7 +65,8 @@ class MyNavigationDrawer extends StatelessWidget {
                 CircleAvatar(
                   backgroundColor: Colors.blueGrey,
                   radius: 52,
-                  backgroundImage: AssetImage('assets/images/student_avatar.png'),
+                  backgroundImage:
+                      AssetImage('assets/images/student_avatar.png'),
                 ),
                 SizedBox(height: 12),
                 Text(
@@ -85,7 +93,7 @@ class MyNavigationDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.calendar_month_outlined),
             title: const Text('Calendar'),
-            onTap: () => Navigator.of(context).pushReplacement(
+            onTap: () => Navigator.of(context).pushReplacement(//zamijeni trenuntni screen na stacku
                 MaterialPageRoute(
                     builder: (context) => const CalendarScreen())),
           ),

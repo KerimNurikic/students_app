@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter_application_1/services/sqlite_service.dart';
+
 import '../models/quote.dart';
 import 'package:http/http.dart' as http;
 import './static_test_data.dart' as test_data;
@@ -7,7 +9,7 @@ import './static_test_data.dart' as test_data;
 class QuotesService {
   static const endpoint = 'api.api-ninjas.com';
   static const apiKey = 'uWiGSE3WlN3ucIi2J5i7dA==zfJpwiZY1IV5C0uc';
-  
+
   static var favoriteQuotes = <Quote>[];
 
   static var historyQuotes = test_data.historyQuotes;
@@ -15,7 +17,6 @@ class QuotesService {
   static var happinessQuotes = test_data.happinessQuotes;
   static var imaginationQuotes = test_data.imaginationQuotes;
   static var inspirationalQuotes = test_data.inspirationalQuotes;
-
 
   List<Quote> getCurrentQuotes(String category) {
     switch (category) {
@@ -42,8 +43,8 @@ class QuotesService {
           Uri.https(endpoint, '/v1/quotes', {'category': category}),
           headers: {'X-Api-Key': apiKey});
       if (response.statusCode == 200) {
-        quotes.add(
-            Quote.fromJson(jsonDecode(response.body)[0] as Map<String, dynamic>));
+        quotes.add(Quote.fromJson(
+            jsonDecode(response.body)[0] as Map<String, dynamic>));
       } else {
         retry++;
         i--;
@@ -82,20 +83,37 @@ class QuotesService {
     }
   }
 
-  List<Quote> getFavoriteQuotes() {
+  Future<List<Quote>> getFavoriteQuotes() async {
+    await asyncFetchFavoriteQuotes();
     return favoriteQuotes;
   }
 
+  asyncFetchFavoriteQuotes() async {
+    favoriteQuotes = await SqliteService().getFavoriteQuotes();
+  }
+
+
   bool isFavorite(Quote quote) {
-    return favoriteQuotes.contains(quote);
+    asyncFetchFavoriteQuotes();
+    var quotes = favoriteQuotes;
+    return quotes
+        .where((favoriteQuote) =>
+            favoriteQuote.quoteAuthor == quote.quoteAuthor &&
+            favoriteQuote.quoteCategory == quote.quoteCategory &&
+            favoriteQuote.quoteText == quote.quoteText)
+        .isNotEmpty;
   }
 
   bool removeFromFavorites(Quote quote) {
-    favoriteQuotes.remove(quote);
+    if (quote.id != null) {
+      SqliteService().deleteFavoriteQuote(quote);
+      favoriteQuotes.remove(quote);
+    }
     return true;
   }
 
   bool addToFavorites(Quote quote, [int index = -1]) {
+    SqliteService().addFavoriteQuote(quote);
     if (index >= 0) {
       favoriteQuotes.insert(index, quote);
     } else {

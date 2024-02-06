@@ -16,7 +16,12 @@ class _FavoriteQuotesState extends State<FavoriteQuotes> {
   @override
   void initState() {
     super.initState();
-    favoriteQuotes = QuotesService().getFavoriteQuotes();
+    asyncFetchFavoriteQuotes();
+  }
+
+  void asyncFetchFavoriteQuotes() async {
+    favoriteQuotes = await QuotesService().getFavoriteQuotes();
+    setState(() {});
   }
 
   void removeQuoteFromFavorites(Quote quote) {
@@ -33,9 +38,11 @@ class _FavoriteQuotesState extends State<FavoriteQuotes> {
                   setState(() {
                     QuotesService().addToFavorites(quote, index);
                   });
+                  asyncFetchFavoriteQuotes();
                 })));
       }
     });
+    asyncFetchFavoriteQuotes();
   }
 
   @override
